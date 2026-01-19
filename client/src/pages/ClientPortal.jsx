@@ -4,17 +4,15 @@ import axios from 'axios';
 
 const ClientPortal = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token_cliente'); // Usamos el token del Login
+  const token = localStorage.getItem('token_cliente'); 
   
   const [cliente, setCliente] = useState(null);
   const [cargando, setCargando] = useState(true);
   
-  // Estado para el formulario de reserva
   const [mostrarAgenda, setMostrarAgenda] = useState(false);
   const [reserva, setReserva] = useState({ patente: '', servicio: 'Lavado Full', fecha: '', hora: '' });
   const [horasDisponibles, setHorasDisponibles] = useState([]);
 
-  // --- 1. CARGAR DATOS REALES DEL SERVIDOR ---
   useEffect(() => {
     if (!token) {
       navigate('/login-cliente');
@@ -23,7 +21,7 @@ const ClientPortal = () => {
 
     const obtenerDatos = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/clients/me', {
+        const res = await axios.get('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/clients/me', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCliente(res.data);
@@ -58,7 +56,7 @@ const ClientPortal = () => {
   const handleReserva = async (e) => {
       e.preventDefault();
       try {
-          await axios.post('http://localhost:5000/api/public/booking', {
+          await axios.post('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/public/booking', {
               ...reserva,
               cliente: cliente.nombre,
               rut: cliente.rut
