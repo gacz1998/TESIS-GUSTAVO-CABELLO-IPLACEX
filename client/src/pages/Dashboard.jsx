@@ -37,16 +37,16 @@ const Dashboard = () => {
 
   const cargarDatos = async () => {
     try {
-      const resAutos = await axios.get('http://localhost:5000/api/attendance/current');
+      const resAutos = await axios.get('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/attendance/current');
       setAutos(resAutos.data);
-      const resVentas = await axios.get('http://localhost:5000/api/sales/history');
+      const resVentas = await axios.get('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/sales/history');
       setHistorialVentas(resVentas.data);
     } catch (error) { console.error(error); }
   };
 
   const cargarConfig = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/config');
+      const res = await axios.get('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/config');
       setConfig(res.data);
       if(res.data.servicios && res.data.servicios.length > 0) {
           setServicioSeleccionado({
@@ -59,14 +59,14 @@ const Dashboard = () => {
 
   const cargarClientes = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/clients');
+      const res = await axios.get('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/clients');
       setListaClientes(res.data);
     } catch (e) { console.error(e); }
   };
 
   const cargarReservas = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/bookings');
+      const res = await axios.get('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/bookings');
       setListaReservas(res.data);
     } catch (e) { alert('Error al cargar reservas'); }
   };
@@ -76,10 +76,10 @@ const Dashboard = () => {
     
     try {
       if (tipo === 'entrada') {
-          const res = await axios.post(`http://localhost:5000/api/attendance/entry`, { patente });
+          const res = await axios.post(`https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/attendance/entry`, { patente });
           alert(res.data.msg || "Entrada registrada");
       } else {
-          const res = await axios.post(`http://localhost:5000/api/attendance/exit`, { patente });
+          const res = await axios.post(`https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/attendance/exit`, { patente });
           const t = res.data.ticket;
           
           let mensaje = `TICKET DE SALIDA\n`;
@@ -92,7 +92,7 @@ const Dashboard = () => {
               mensaje += `Servicios Adicionales: $${t.servicios.toLocaleString()}\n`;
               if (t.detalle && t.detalle.length > 0) {
                   t.detalle.forEach(d => {
-                      mensaje += `   - ${d.nombre}: $${d.precio.toLocaleString()}\n`;
+                      mensaje += `    - ${d.nombre}: $${d.precio.toLocaleString()}\n`;
                   });
               }
           }
@@ -113,7 +113,7 @@ const Dashboard = () => {
     if (!servicioSeleccionado) return alert('Selecciona un servicio primero');
 
     try {
-      await axios.post('http://localhost:5000/api/attendance/add-service', {
+      await axios.post('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/attendance/add-service', {
         patente,
         servicio: servicioSeleccionado.nombre,
         precio: servicioSeleccionado.precio
@@ -136,7 +136,7 @@ const Dashboard = () => {
           patentes: [nuevoCliente.patente.toUpperCase()],
           password: "123"
         };
-        await axios.post('http://localhost:5000/api/clients', datosAEnviar);
+        await axios.post('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/clients', datosAEnviar);
         alert('Operación Exitosa'); 
         setNuevoCliente({ nombre: '', rut: '', patente: '', telefono: '' }); 
         cargarClientes();
@@ -148,7 +148,7 @@ const Dashboard = () => {
   const eliminarCliente = async (id) => {
     if(confirm('¿Seguro que quieres eliminar esta membresía y todos sus datos?')) { 
       try {
-        await axios.delete(`http://localhost:5000/api/clients/${id}`); 
+        await axios.delete(`https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/clients/${id}`); 
         cargarClientes(); 
       } catch (e) { alert('Error al eliminar'); }
     }
@@ -157,7 +157,7 @@ const Dashboard = () => {
   const renovarCliente = async (id) => {
     if(!confirm('¿Sumar 30 días a la suscripción?')) return;
     try {
-      await axios.put(`http://localhost:5000/api/admin/clients/${id}/renew`);
+      await axios.put(`https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/admin/clients/${id}/renew`);
       alert('Renovado exitosamente');
       cargarClientes(); 
     } catch (e) { 
@@ -179,7 +179,7 @@ const Dashboard = () => {
       const nuevasPatentes = [...patentesActuales, pUpper];
 
       try {
-          await axios.put(`http://localhost:5000/api/admin/clients/${clienteEditando._id}/patentes`, { patentes: nuevasPatentes });
+          await axios.put(`https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/admin/clients/${clienteEditando._id}/patentes`, { patentes: nuevasPatentes });
           alert("Vehículo agregado");
           setClienteEditando({...clienteEditando, patentes: nuevasPatentes});
           setNuevaPatenteEdit('');
@@ -191,7 +191,7 @@ const Dashboard = () => {
       if(!confirm(`¿Eliminar el vehículo ${patenteBorrar}?`)) return;
       const nuevasPatentes = clienteEditando.patentes.filter(p => p !== patenteBorrar);
       try {
-          await axios.put(`http://localhost:5000/api/admin/clients/${clienteEditando._id}/patentes`, { patentes: nuevasPatentes });
+          await axios.put(`https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/admin/clients/${clienteEditando._id}/patentes`, { patentes: nuevasPatentes });
           setClienteEditando({...clienteEditando, patentes: nuevasPatentes});
           cargarClientes();
       } catch (e) { alert("Error al borrar"); }
@@ -200,7 +200,7 @@ const Dashboard = () => {
   const procesarReserva = async (id) => {
     if(confirm('¿El cliente llegó? Esto ingresará el auto al recinto y cargará el cobro.')) {
       try {
-        const res = await axios.post(`http://localhost:5000/api/bookings/process/${id}`);
+        const res = await axios.post(`https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/bookings/process/${id}`);
         alert(res.data.msg);
         cargarReservas();
         cargarDatos(); 
@@ -210,7 +210,7 @@ const Dashboard = () => {
 
   const guardarConfig = async () => {
     try {
-      await axios.put('http://localhost:5000/api/config', config);
+      await axios.put('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/config', config);
       alert('Guardado'); setVista('dashboard');
     } catch (e) { alert('Error'); }
   };
