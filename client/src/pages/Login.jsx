@@ -11,7 +11,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { username, password });
+      const res = await axios.post('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/auth/login', { username, password });
       localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     } catch (err) { alert('Credenciales incorrectas'); }
@@ -28,7 +28,6 @@ const Login = () => {
           <button type="submit" className="btn-login">Ingresar</button>
         </form>
 
-        {/* BOTÓN VOLVER */}
         <button onClick={() => navigate('/')} className="link-back">
           ← Volver a la Página de Inicio
         </button>
@@ -36,4 +35,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;
