@@ -29,7 +29,8 @@ const RegistroCliente = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/public/register', datos);
+      // Cambio de URL local a producción en Render
+      await axios.post('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/public/register', datos);
       
       setExito(true);
       setCargando(false);
