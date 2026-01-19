@@ -59,7 +59,7 @@ const Home = () => {
     setReserva(prev => ({ ...prev, hora: '' })); 
     
     try {
-      const res = await axios.get(`http://localhost:5000/api/public/availability?fecha=${fechaSeleccionada}`);
+      const res = await axios.get(`https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/public/availability?fecha=${fechaSeleccionada}`);
       const horasOcupadasBD = res.data; 
 
       const ahora = new Date();
@@ -107,7 +107,7 @@ const Home = () => {
     setMsgReserva('');
     
     try {
-      const res = await axios.post('http://localhost:5000/api/public/booking', reserva);
+      const res = await axios.post('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/public/booking', reserva);
       alert(res.data.msg || 'Reserva creada con éxito');
       setMsgReserva('Reserva confirmada. Te esperamos.');
       setReserva({ cliente: '', telefono: '', patente: '', servicio: 'Lavado Full', fecha: '', hora: '' });
@@ -128,7 +128,7 @@ const Home = () => {
     setMsgRegistro('Procesando registro...');
 
     try {
-      await axios.post('http://localhost:5000/api/public/register', registro);
+      await axios.post('https://tesis-gustavo-cabello-iplacex-1.onrender.com/api/public/register', registro);
       
       setTimeout(() => {
         alert(`Registro Exitoso!\n\nRedirigiendo a Webpay para pago de $50.000\nTitular: ${registro.nombre}`);
