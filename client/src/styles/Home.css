@@ -1,0 +1,403 @@
+/* src/styles/Home.css */
+
+.home-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAVBAR */
+.navbar {
+  width: 100%;
+  padding: 15px 5%;
+  background: rgba(44, 62, 80, 0.95);
+  backdrop-filter: blur(10px);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.nav-buttons { display: flex; gap: 10px; }
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+.btn-outline:hover { background: rgba(255,255,255,0.1); border-color: white; }
+
+.btn-solid {
+  background: #27ae60;
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
+  transition: 0.3s;
+}
+.btn-solid:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(39, 174, 96, 0.6); }
+
+/* HERO (Banner Principal) */
+.hero {
+  width: 100%;
+  padding: 120px 20px;
+  color: white !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  margin-bottom: 20px;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  letter-spacing: -1px;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  opacity: 0.9;
+  /* CORRECCIÓN AQUÍ: margin: 0 auto asegura el centrado horizontal del bloque */
+  margin: 0 auto 40px auto;
+  max-width: 700px;
+  font-weight: 300;
+}
+
+.btn-cta {
+  background: #e67e22;
+  color: white;
+  padding: 18px 50px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 25px rgba(230, 126, 34, 0.4);
+}
+.btn-cta:hover { transform: translateY(-3px) scale(1.02); }
+
+/* SERVICIOS */
+.services-section {
+  padding: 80px 5%;
+  background-color: #f8f9fa;
+  text-align: center; /* Centra los títulos de sección */
+}
+.services-section h2, .pricing-section h2, .testimonials-section h2 { 
+  color: #2c3e50; 
+  margin-bottom: 50px; 
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.services-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.service-card {
+  background: white;
+  color: #333;
+  padding: 40px 30px;
+  border-radius: 20px;
+  flex: 1;
+  min-width: 250px;
+  max-width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: all 0.4s ease;
+  /* CORRECCIÓN AQUÍ: Asegura que el texto dentro de las tarjetas también se centre */
+  text-align: center;
+}
+.service-card:hover { transform: translateY(-15px); border-bottom: 5px solid #3498db; }
+.service-card h3 { color: #3498db; margin: 20px 0 10px 0; font-size: 1.5rem; }
+
+/* SECCIÓN DE PRECIOS (TARIFAS) */
+.pricing-section {
+  padding: 80px 5%;
+  background: white;
+  text-align: center;
+}
+
+.pricing-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.pricing-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 20px;
+  padding: 40px;
+  width: 300px;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.pricing-card.featured {
+  border: 2px solid #e67e22;
+  transform: scale(1.05);
+  box-shadow: 0 15px 40px rgba(230, 126, 34, 0.15);
+}
+
+.badge-popular {
+  background: #e67e22;
+  color: white;
+  position: absolute;
+  top: 20px; right: -35px;
+  transform: rotate(45deg);
+  width: 150px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 5px 0;
+}
+
+.price {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  font-weight: 800;
+  margin: 20px 0;
+}
+.price span { font-size: 1rem; color: #7f8c8d; font-weight: normal; }
+
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  text-align: left; /* Las listas se ven mejor alineadas a la izquierda */
+  margin: 30px 0;
+  display: inline-block; /* Truco para centrar el bloque de la lista pero mantener el texto a la izquierda */
+}
+.pricing-features li { margin-bottom: 10px; color: #555; }
+
+/* TESTIMONIOS */
+.testimonials-section {
+  padding: 80px 5%;
+  background: #f1f2f6;
+  text-align: center;
+}
+
+.testimonial-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 350px;
+  text-align: left; /* Los testimonios suelen leerse mejor alineados a la izquierda */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.testimonial-text { font-style: italic; color: #555; margin-bottom: 20px; }
+.user-name { font-weight: bold; color: #2c3e50; }
+.stars { color: #f1c40f; }
+
+/* FORMULARIOS */
+.forms-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+  padding: 80px 5%;
+  background-color: white;
+}
+
+.form-box {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+  /* CORRECCIÓN AQUÍ: Centra los títulos (h2) y párrafos (p) dentro de las cajas de formulario */
+  text-align: center;
+}
+
+.registro { background: white; border-top: 6px solid #e67e22; }
+.registro h2 { color: #e67e22; font-weight: 800; }
+
+.contacto { background: #2c3e50; color: white; }
+.contacto h2 { color: white; font-weight: 800; }
+.contacto input, .contacto textarea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+}
+
+/* Los inputs siguen ocupando el 100%, así que se ven bien aunque la caja esté centrada */
+.input-field {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  border: 2px solid #f0f0f0;
+  background: #f9f9f9;
+  text-align: left; /* Fuerza el texto dentro del input a la izquierda */
+}
+.input-field:focus {
+  border-color: #3498db;
+  background: white;
+  outline: none;
+}
+
+/* FOOTER */
+footer {
+  width: 100%;
+  background-color: #1a252f;
+  color: #bdc3c7;
+  text-align: center;
+  padding: 50px 20px;
+}
+.footer-content {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  text-align: left; /* Las columnas del footer se ven mejor a la izquierda */
+}
+.footer-col h4 { color: white; margin-bottom: 15px; }
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col li { margin-bottom: 8px; font-size: 0.9rem; }
+
+@media (max-width: 768px) {
+  .navbar { flex-direction: column; gap: 15px; }
+  .pricing-card.featured { transform: scale(1); }
+  .footer-content { flex-direction: column; gap: 30px; text-align: center; /* En móvil sí centramos el footer */ }
+}
+/* Estilos para las Páginas Nuevas */
+
+/* Contenedor de Formulario Centrado */
+.registro-page-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f4f4f9 0%, #e9e9f2 100%);
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Tarjeta del Formulario de Registro */
+.registro-card {
+    max-width: 480px;
+    width: 100%;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    margin-top: 30px;
+    border-top: 5px solid #e67e22; /* Rojo Redbank */
+}
+
+.registro-card h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Cuadro de Precio Destacado */
+.price-highlight-box {
+    background: #fff5f5;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px dashed #e67e22;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.price-highlight-box span {
+    font-size: 0.9rem;
+    color: #666;
+    display: block;
+}
+
+.price-highlight-box strong {
+    font-size: 2rem;
+    color: #e67e22;
+    display: block;
+}
+
+/* Sección Quiénes Somos */
+.about-section-content {
+    background: white;
+    padding: 50px;
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    margin-top: 40px;
+    line-height: 1.8;
+    color: #444;
+}
+
+.about-section-content h3 {
+    color: #27ae60; /* Verde Reserva */
+    margin-top: 25px;
+}
+
+.values-list {
+    list-style: none;
+    padding: 0;
+}
+
+.values-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+.values-list li::before {
+    content: "✓";
+    color: #27ae60;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+/* Botón de Pago Especial */
+.btn-pay-redbank {
+    background: #e67e22;
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-pay-redbank:hover {
+    background: #e67e22;
+    transform: translateY(-2px);
+}
+
+.btn-pay-redbank:disabled {
+    background: #999;
+    cursor: not-allowed;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+    .registro-card, .about-section-content {
+        padding: 20px;
+    }
+}

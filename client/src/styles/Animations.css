@@ -1,0 +1,56 @@
+/* src/styles/Animations.css */
+
+/* --- 1. FONDO VIVO (Gradient Flow) --- */
+@keyframes gradientMovimiento {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --- 2. ENTRADA DE ELEMENTOS (Fade Up Pro) --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --- 3. FLOTACIÓN SUAVE (Levitación) --- */
+@keyframes flotar {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+/* --- 4. EFECTO DESTELLO (SHINE) --- */
+@keyframes shine {
+  100% { left: 125%; }
+}
+
+/* --- CLASES UTILITARIAS --- */
+
+.animate-bg {
+  /* Fondo degradado animado (Azul Profundo a Azul Vibrante) */
+  background: linear-gradient(-45deg, #1a252f, #2c3e50, #3498db, #2980b9);
+  background-size: 400% 400%;
+  animation: gradientMovimiento 15s ease infinite;
+}
+
+.animate-fade-in {
+  opacity: 0; /* Oculto al inicio */
+  animation: fadeInUp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.animate-float {
+  animation: flotar 4s ease-in-out infinite;
+}
+
+/* Retrasos para efecto escalera */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }

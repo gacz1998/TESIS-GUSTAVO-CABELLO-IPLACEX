@@ -1,0 +1,44 @@
+/* src/index.css */
+:root {
+  /* Forzamos al navegador a saber que esto es MODO CLARO */
+  color-scheme: light; 
+
+  /* Paleta de Colores Corporativa */
+  --primary: #2c3e50;    /* Azul Marino */
+  --accent: #3498db;     /* Azul Cielo */
+  --success: #27ae60;    /* Verde Éxito */
+  --warning: #f39c12;    /* Naranja Alerta */
+  --danger: #e74c3c;     /* Rojo Error */
+  --bg-body: #f4f6f9;    /* Gris muy suave para fondo */
+  --text-main: #333333;  /* Texto casi negro */
+  --white: #ffffff;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-body) !important; /* !important fuerza el color claro */
+  color: var(--text-main) !important;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: block; /* Vite a veces pone 'flex' aquí, esto lo arregla */
+}
+
+/* Reset de inputs para quitar el estilo gris del navegador */
+input, select, textarea {
+  background-color: #fff !important;
+  color: #333 !important;
+  border: 1px solid #ccc;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}

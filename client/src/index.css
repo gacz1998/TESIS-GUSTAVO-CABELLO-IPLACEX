@@ -1,0 +1,49 @@
+/* src/index.css */
+:root {
+  --primary: #2c3e50;    /* Azul Oscuro */
+  --accent: #3498db;     /* Azul Claro */
+  --success: #27ae60;    /* Verde */
+  --warning: #f39c12;    /* Naranja */
+  --danger: #e74c3c;     /* Rojo */
+  --light: #ecf0f1;      /* Gris Claro */
+  --dark: #2c3e50;       /* Gris Oscuro */
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+  background-color: #f4f6f7;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Botones Generales para toda la app */
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Enlaces estilo botón */
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 15px;
+  display: inline-block;
+}

@@ -1,0 +1,65 @@
+/* src/styles/Auth.css */
+
+.auth-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2c3e50; /* Fondo Azul Oscuro */
+  padding: 20px;
+}
+
+.auth-box {
+  background-color: #ffffff; /* Tarjeta Blanca */
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.auth-box h2 { color: #2c3e50; margin-bottom: 10px; }
+.auth-box p { color: #7f8c8d; margin-bottom: 30px; }
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #fff;
+  color: #333;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background: #27ae60; /* Verde */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+.btn-login:hover { background: #219150; }
+
+/* Botón Volver */
+.link-back {
+  display: block;
+  margin-top: 20px;
+  color: #3498db;
+  background: none;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  cursor: pointer;
+}
+.link-back:hover { border-bottom-color: #3498db; }
