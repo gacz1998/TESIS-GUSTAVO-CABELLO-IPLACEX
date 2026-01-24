@@ -5,7 +5,7 @@ import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-// Modelos
+// Modelos existentes (asegúrate de tener estos archivos en tu carpeta models)
 import User from './models/User.js';
 import Client from './models/Client.js';
 import Attendance from './models/Attendance.js';
@@ -17,6 +17,14 @@ app.use(cors());
 app.use(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET || 'js_secret_2026';
+
+// --- DEFINICIÓN MODELO CONFIGURACIÓN (Para Tarifas) ---
+// Lo definimos aquí para que funcione inmediato sin crear otro archivo
+const ConfigSchema = new mongoose.Schema({
+    precio_base: { type: Number, default: 2000 },
+    precio_minuto: { type: Number, default: 20 }
+});
+const Config = mongoose.model('Config', ConfigSchema);
 
 // --- 1. AUTENTICACIÓN ---
 app.post('/api/auth/login', async (req, res) => {
@@ -77,7 +85,7 @@ app.get('/api/public/availability', async (req, res) => {
     } catch (e) { res.json([]); }
 });
 
-// --- 3. GESTIÓN DE RESERVAS (CON PROCESAMIENTO INTELIGENTE) ---
+// --- 3. GESTIÓN DE RESERVAS ---
 app.get('/api/bookings', async (req, res) => {
     try { const data = await Booking.find({ estado: 'pendiente' }).sort({ fecha: 1, hora: 1 }); res.json(data); } 
     catch (e) { res.status(500).json({ error: e.message }); }
@@ -93,7 +101,6 @@ app.delete('/api/bookings/:id', async (req, res) => {
     catch (e) { res.status(500).json({ error: "Error" }); }
 });
 
-// 🔥 RUTA NUEVA: PROCESAR RESERVA (BOTÓN 'LISTO') 🔥
 app.post('/api/bookings/process/:id', async (req, res) => {
     try {
         const reserva = await Booking.findById(req.params.id);
@@ -102,7 +109,6 @@ app.post('/api/bookings/process/:id', async (req, res) => {
         const pUpper = reserva.patente.toUpperCase();
         let auto = await Attendance.findOne({ patente: pUpper, estado: 'en_curso' });
 
-        // DICCIONARIO DE PRECIOS
         const listaPrecios = {
             'lavado simple': 10000,
             'lavado full': 25000,
@@ -118,12 +124,10 @@ app.post('/api/bookings/process/:id', async (req, res) => {
         };
 
         if (auto) {
-            // Si el auto ya estaba, le sumamos el servicio
             if (!auto.servicios) auto.servicios = [];
             auto.servicios.push(nuevoServicio);
             await auto.save();
         } else {
-            // Si no estaba, lo ingresamos
             const cliente = await Client.findOne({ patentes: pUpper });
             const esAbonado = cliente && (new Date() <= new Date(cliente.fecha_vencimiento));
 
@@ -136,7 +140,6 @@ app.post('/api/bookings/process/:id', async (req, res) => {
             await auto.save();
         }
 
-        // Borramos la reserva
         await Booking.findByIdAndDelete(req.params.id);
         res.json({ msg: "Reserva procesada y auto ingresado correctamente" });
 
@@ -273,11 +276,19 @@ app.post('/api/attendance/exit', async (req, res) => {
         const auto = await Attendance.findOne({ patente: pUpper, estado: 'en_curso' });
         if (!auto) return res.status(404).json({ msg: "El auto no está en el recinto." });
 
+        // --- LÓGICA DE COBRO DINÁMICA ---
+        // 1. Obtenemos configuración de BD
+        let config = await Config.findOne();
+        if (!config) config = { precio_base: 2000, precio_minuto: 20 };
+
         const fin = new Date();
         const inicio = new Date(auto.entry_time);
         const minutos = isNaN(inicio.getTime()) ? 1 : Math.floor((fin - inicio) / 60000);
 
-        const PRECIO_BASE = 2000; const PRECIO_MINUTO = 20; 
+        // Usamos los precios de la BD
+        const PRECIO_BASE = config.precio_base; 
+        const PRECIO_MINUTO = config.precio_minuto; 
+
         let costoEstacionamiento = 0;
         
         if (auto.tipo_cliente !== 'abonado') {
@@ -321,17 +332,52 @@ app.get('/api/attendance/current', async (req, res) => {
 app.get('/api/sales/history', async (req, res) => {
     const data = await Sale.find().sort({ fecha_pago: -1 }); res.json(data);
 });
+
+// --- 6. CONFIGURACIÓN (RUTAS CORREGIDAS) ---
+// Obtener configuración
 app.get('/api/config', async (req, res) => {
-    res.json({ 
-        precio_base: 2000, precio_minuto: 20,
-        servicios: [
-            { nombre: 'Lavado Simple', precio: 10000 },
-            { nombre: 'Lavado Full', precio: 25000 },
-            { nombre: 'Aspirado', precio: 5000 },
-            { nombre: 'Encerado', precio: 15000 },
-            { nombre: 'Revisión Mecánica', precio: 30000 }
-        ] 
-    });
+    try {
+        let config = await Config.findOne();
+        if (!config) {
+            config = { 
+                precio_base: 2000, 
+                precio_minuto: 20,
+                // Mantenemos servicios fijos por compatibilidad visual en frontend
+                servicios: [
+                    { nombre: 'Lavado Simple', precio: 10000 },
+                    { nombre: 'Lavado Full', precio: 25000 },
+                    { nombre: 'Aspirado', precio: 5000 },
+                    { nombre: 'Encerado', precio: 15000 },
+                    { nombre: 'Revisión Mecánica', precio: 30000 }
+                ]
+            };
+        } else {
+            // Si viene de BD, agregamos los servicios fijos para que el frontend no falle
+            config = config.toObject();
+            config.servicios = [
+                { nombre: 'Lavado Simple', precio: 10000 },
+                { nombre: 'Lavado Full', precio: 25000 },
+                { nombre: 'Aspirado', precio: 5000 },
+                { nombre: 'Encerado', precio: 15000 },
+                { nombre: 'Revisión Mecánica', precio: 30000 }
+            ];
+        }
+        res.json(config);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Actualizar configuración (SOLUCIONA EL ERROR 404)
+app.put('/api/config', async (req, res) => {
+    try {
+        const { precio_base, precio_minuto } = req.body;
+        // Crea o actualiza la configuración
+        await Config.findOneAndUpdate({}, { precio_base, precio_minuto }, { upsert: true, new: true });
+        res.json({ msg: "Configuración actualizada correctamente" });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
 mongoose.connect(process.env.MONGO_URI)
