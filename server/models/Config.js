@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ConfigSchema = new mongoose.Schema({
-    precio_base: { type: Number, default: 500 }, // Precio primeros 30 min
-    precio_minuto: { type: Number, default: 20 }, // Precio minuto extra
+    precio_base: { type: Number, default: 2000 }, // Ojo: Puse 2000 para coincidir con tu lógica anterior
+    precio_minuto: { type: Number, default: 20 },
     servicios: [{
         nombre: String,
         precio: Number
     }]
 });
 
-module.exports = mongoose.model('Config', ConfigSchema);
+export default mongoose.model('Config', ConfigSchema);
